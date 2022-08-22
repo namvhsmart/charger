@@ -8,4 +8,3 @@ def validate_unique(table, field, **kwargs):
     if q:
         raise ValueError(f"""'{q}' already exist""")
     return kwargs[field]
-

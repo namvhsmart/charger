@@ -2,11 +2,11 @@ from fastapi import APIRouter
 
 from app.api.v1.auth_router import auth_router
 from app.api.v1.charger_model_router import charger_model_router
+from app.api.v1.company_router import company_model_router
 from app.api.v1.current_user_router import current_user_router
 from app.api.v1.index import router_index
 from app.api.v1.user_router import user_router
 from app.api.v1.vehicle_model_router import vehicle_model
-from app.api.v1.company_router import company_model_router
 from app.config import settings
 
 api_v1_router = APIRouter()

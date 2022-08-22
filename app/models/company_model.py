@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, String, INTEGER, FLOAT
+from sqlalchemy import FLOAT, INTEGER, Column, DateTime, String
 
 from app.common.database import DBBaseCustom
 
@@ -12,15 +12,14 @@ class CompanyModel(DBBaseCustom):
     unit_cost = Column(FLOAT, nullable=False)
     created_at = Column(
         DateTime,
-        nullable= False,
+        nullable=False,
         default=datetime.utcnow(),
-
     )
     updated_at = Column(
         DateTime,
-        nullable = False,
-        default  = datetime.utcnow(),
-        onupdate = datetime.utcnow(),
+        nullable=False,
+        default=datetime.utcnow(),
+        onupdate=datetime.utcnow(),
     )
     created_by = Column(String(255))
     updated_by = Column(String(255))

@@ -6,4 +6,3 @@ class BaseModelSchemas(BaseModel):
     updated_at: str = None
     updated_by: str = None
     created_by: str = None
-
