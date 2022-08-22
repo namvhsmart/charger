@@ -10,10 +10,14 @@ class CompanyModelBase(BaseModelSchemas):
 
 
 class CompanyModelCreate(CompanyModelBase):
-    pass
+    @validator("name")
+    def unique_check_model(cls, name_check):
+        return validate_unique(CompanyModel, "name", name  = name_check)
 
 class CompanyModelUpdate(CompanyModelBase):
-    created_at: str = None
+    @validator("name")
+    def unique_check_model(cls, name_check):
+        return validate_unique(CompanyModel, "name", name=name_check)
 
 class CompanyModelResponse(CompanyModelBase):
     pass
