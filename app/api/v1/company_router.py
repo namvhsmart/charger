@@ -20,7 +20,7 @@ async def get_list_companys(db: Session = Depends(get_db)):
     return resp.success(data=results)
 
 @company_model_router.get("/{id}")
-async def get_company_by_id(id: str, db: Session = Depends(get_db), ):
+async def get_company_by_id(id: int, db: Session = Depends(get_db), ):
     model = await company_model_crud.get(db,id)
     return resp.success(data=model)
 
