@@ -17,8 +17,7 @@ class TestCompany(BaseTestCase):
         data = res["data"]
         assert response.status_code == 200
         assert len(data) == 1
-    def test_get_company_by_id(self):
-        pass
+
     def test_create_company(self):
         response_create = self.client.post(
                     f"{settings.API_PREFIX}/company/",
