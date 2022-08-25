@@ -49,7 +49,6 @@ async def create_comapny(body_data: CompanyModelCreate, db: Session = Depends(ge
 
 @company_model_router.patch("/")
 async def patch_company_details(request: CompanyModelUpdate, db: Session = Depends(get_db)):
-    print(request.id)
     result = await company_model_crud.get(db, request.id)
     update = await company_model_crud.update(db=db, obj_in=request, db_obj=result)
     return resp.success(data=update)

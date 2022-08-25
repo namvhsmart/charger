@@ -30,7 +30,7 @@ class TestCompanyCreate(BaseTestCase):
                 "name": "Daocm8678 Company",
                 "unit_cost": 8
             })
-        print(response_create)
+
         assert response_create.status_code == 200
         response_get = self.client.get(f"{settings.API_PREFIX}/company",params={"page_size": 1, "current_page": 1 })
         res = response_get.json()
