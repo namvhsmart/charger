@@ -14,9 +14,27 @@ from app.schemas.response import resp
 
 company_model_router = APIRouter()
 
+async def check_params(filter: str | None = None, name: str | None = None, unit_cost:int | None = None):
+    response = {}
+    print(filter)
+    print(name)
+    if filter:
+        response['filter'] = filter
+    if name:
+        response['name'] = name
+    if unit_cost:
+        response['unit_cost'] = unit_cost
+    return response
+
+@company_model_router.get("/test")
+async def get_list_by_filter(params: dict = Depends(check_params), db: Session = Depends(get_db)):
+    print(params)
+    result = await company_model_crud.get_list_by_filter(db=db, params=params)
+    return resp.success(data=result)
+
 @company_model_router.get("/")
-async def get_list_companys(db: Session = Depends(get_db)):
-    results = await company_model_crud.list(db)
+async def get_list_companys( current_page: int,page_size: int ,  db: Session = Depends(get_db)):
+    results = await company_model_crud.get_multi(db = db, skip=(current_page-1)*page_size, limit=page_size)
     return resp.success(data=results)
 
 @company_model_router.get("/{id}")
@@ -25,8 +43,9 @@ async def get_company_by_id(id: int, db: Session = Depends(get_db), ):
     return resp.success(data=model)
 
 @company_model_router.post("/")
-async def create_comapny(request: CompanyModelCreate ,db: Session = Depends(get_db)) -> str:
-    await company_model_crud.create(db = db, obj_in= request)
+async def create_comapny(body_data: CompanyModelCreate ,db: Session = Depends(get_db)) -> str:
+
+    await company_model_crud.create(db = db, obj_in= body_data)
     return resp.success(data="Created")
 
 
