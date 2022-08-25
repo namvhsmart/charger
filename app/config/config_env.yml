@@ -2,7 +2,7 @@ default: &default
   DB_DATABASE: EV
   DB_HOST: localhost
   DB_POST: 3306
-  DB_URL: mysql+pymysql://root:123456@localhost:3306/OCPP
+  DB_URL: mysql+pymysql://root:123456@localhost:3306/charger
   DB_USER: root
   DB_PASS: 123456
   ENVIRONMENT: local

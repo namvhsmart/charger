@@ -6,7 +6,7 @@ from app.common.database import DBBaseCustom
 
 
 class CompanyModel(DBBaseCustom):
-    __tablename__ = "company"
+    __tablename__ = "companies"
     id = Column(INTEGER, primary_key=True, autoincrement=True, nullable=True)
     name = Column(String(255), nullable=False)
     unit_cost = Column(FLOAT, nullable=False)
