@@ -1,14 +1,9 @@
-from dateutil.parser import parser
-from sqlalchemy import and_, asc, desc
+from sqlalchemy import asc, desc
 from sqlalchemy.orm import Session
 
 from app.crud.base_crud import CRUDBase
 from app.models.company_model import CompanyModel
-from app.schemas.company_model import (
-    CompanyModelBase,
-    CompanyModelCreate,
-    CompanyModelUpdate,
-)
+from app.schemas.company_model import CompanyModelCreate, CompanyModelUpdate
 
 
 class CompanyModelCrud(
@@ -37,7 +32,9 @@ class CompanyModelCrud(
         data_filter = db.query(CompanyModel)
 
         for key in params:
-            data_filter = data_filter.filter(getattr(CompanyModel, key) == params[key])
+            data_filter = data_filter.filter(
+                getattr(CompanyModel, key) == params[key],
+            )
         if order_by == "asc":
             data_filter = data_filter.order_by(
                 asc(getattr(CompanyModel, order_by_field))
@@ -46,8 +43,8 @@ class CompanyModelCrud(
             data_filter = data_filter.order_by(
                 desc(getattr(CompanyModel, order_by_field))
             )
-
-        return data_filter.offset((current_page - 1) * page_size).limit(page_size).all()
+        offset = (current_page - 1) * page_size
+        return data_filter.offset(offset).limit(page_size).all()
 
 
 company_model_crud = CompanyModelCrud(CompanyModel)

@@ -1,22 +1,12 @@
 import json
-from typing import List
 
 from fastapi import Depends
 from fastapi.routing import APIRouter
-from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app.common.database import get_db
-from app.common.handle_error import BadRequestException, NotFoundException
-from app.common.logger import logger
 from app.crud.company_crud import company_model_crud
-from app.models.company_model import CompanyModel
-from app.schemas.company_model import (
-    ComanyModelGet,
-    CompanyModelCreate,
-    CompanyModelResponse,
-    CompanyModelUpdate,
-)
+from app.schemas.company_model import CompanyModelCreate, CompanyModelUpdate
 from app.schemas.response import resp
 
 company_model_router = APIRouter()
@@ -30,9 +20,8 @@ async def check_params(filter: str | None = None):
 
 @company_model_router.get("/")
 async def get_list_by_filter(
-    filter: ComanyModelGet = Depends(check_params), db: Session = Depends(get_db)
+    filter: dict = Depends(check_params), db: Session = Depends(get_db)
 ):
-
     page_size = filter.pop("page_size", 10)
     current_page = filter.pop("current_page", 1)
     order_by_field = filter.pop("order_by_field", "name")
@@ -47,12 +36,6 @@ async def get_list_by_filter(
         order_by=order_by,
     )
     return resp.success(data=result)
-
-
-# @company_model_router.get("/")
-# async def get_list_companys(current_page: int, page_size: int, db: Session = Depends(get_db)):
-#     results = await company_model_crud.get_multi(db=db, skip=(current_page - 1) * page_size, limit=page_size)
-#     return resp.success(data=results)
 
 
 @company_model_router.get("/{id}")
@@ -77,5 +60,9 @@ async def patch_company_details(
     request: CompanyModelUpdate, db: Session = Depends(get_db)
 ):
     result = await company_model_crud.get(db, request.id)
-    update = await company_model_crud.update(db=db, obj_in=request, db_obj=result)
+    update = await company_model_crud.update(
+        db=db,
+        obj_in=request,
+        db_obj=result,
+    )
     return resp.success(data=update)

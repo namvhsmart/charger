@@ -1,5 +1,3 @@
-import logging
-
 from app.config import settings
 from tests.base_test import BaseTestCase
 from tests.factories.company_model import CompanyModelFactory
@@ -12,7 +10,8 @@ class TestCompanyGet(BaseTestCase):
 
     def test_get_list_company(self):
         response = self.client.get(
-            f"{settings.API_PREFIX}/company", params={"page_size": 1, "current_page": 1}
+            f"{settings.API_PREFIX}/company",
+            params={"page_size": 1, "current_page": 1},
         )
         res = response.json()
         data = res["data"]
@@ -33,7 +32,8 @@ class TestCompanyCreate(BaseTestCase):
 
         assert response_create.status_code == 200
         response_get = self.client.get(
-            f"{settings.API_PREFIX}/company", params={"page_size": 1, "current_page": 1}
+            f"{settings.API_PREFIX}/company",
+            params={"page_size": 1, "current_page": 1},
         )
         res = response_get.json()
         data = res["data"]
@@ -54,7 +54,8 @@ class TestCompanyPath(BaseTestCase):
         assert response_patch.status_code == 200
 
         response_get = self.client.get(
-            f"{settings.API_PREFIX}/company", params={"page_size": 1, "current_page": 1}
+            f"{settings.API_PREFIX}/company",
+            params={"page_size": 1, "current_page": 1},
         )
         res = response_get.json()
         data = res["data"]

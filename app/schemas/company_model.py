@@ -1,4 +1,4 @@
-from pydantic import Field, constr, validator
+from pydantic import validator
 
 from app.common.util import validate_unique
 from app.models.company_model import CompanyModel
