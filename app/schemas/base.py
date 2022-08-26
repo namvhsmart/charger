@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 
 class BaseModelSchemas(BaseModel):
-    creation: str = None
-    modified: str = None
-    modified_by: str = None
-    owner: str = None
+    created_at: str = None
+    updated_at: str = None
+    updated_by: str = None
+    created_by: str = None

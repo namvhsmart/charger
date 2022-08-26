@@ -2,6 +2,7 @@ from fastapi import APIRouter
 
 from app.api.v1.auth_router import auth_router
 from app.api.v1.charger_model_router import charger_model_router
+from app.api.v1.company_router import company_model_router
 from app.api.v1.current_user_router import current_user_router
 from app.api.v1.index import router_index
 from app.api.v1.user_router import user_router
@@ -34,4 +35,8 @@ api_v1_router.include_router(
 api_v1_router.include_router(
     user_router,
     prefix=f"{settings.API_PREFIX}/user",
+)
+api_v1_router.include_router(
+    company_model_router,
+    prefix=f"{settings.API_PREFIX}/company",
 )
