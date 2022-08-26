@@ -22,27 +22,19 @@ async def check_params(filter: str | None = None):
     return {}
 
 
-@company_model_router.get("/test")
-async def get_list_model(filter: CompanyModelGet = Depends()):
-    return filter
-
-
 @company_model_router.get("/")
-async def get_list_by_filter(
-    filter: dict = Depends(check_params), db: Session = Depends(get_db)
+async def get_list_model(
+    params: CompanyModelGet = Depends(), db: Session = Depends(get_db)
 ):
-    page_size = filter.pop("page_size", 10)
-    current_page = filter.pop("current_page", 1)
-    order_by_field = filter.pop("order_by_field", "name")
-    order_by = filter.pop("order_by", "desc")
+    param_dict = params.__dict__
 
     result = await company_model_crud.get_list_by_filter(
         db=db,
-        params=filter,
-        page_size=page_size,
-        current_page=current_page,
-        order_by_field=order_by_field,
-        order_by=order_by,
+        filter=param_dict,
+        page_size=params.page_size,
+        current_page=params.current_page,
+        order_by_field=params.order_by_field,
+        order_by=params.order_by,
     )
     return resp.success(data=result)
 

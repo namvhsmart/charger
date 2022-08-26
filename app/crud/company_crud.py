@@ -3,7 +3,11 @@ from sqlalchemy.orm import Session
 
 from app.crud.base_crud import CRUDBase
 from app.models.company_model import CompanyModel
-from app.schemas.company_model import CompanyModelCreate, CompanyModelUpdate
+from app.schemas.company_model import (
+    CompanyModelCreate,
+    CompanyModelFilter,
+    CompanyModelUpdate,
+)
 
 
 class CompanyModelCrud(
@@ -23,18 +27,22 @@ class CompanyModelCrud(
     async def get_list_by_filter(
         self,
         db: Session,
-        params: dict,
+        filter: dict,
         current_page: int,
         page_size: int,
         order_by_field: str,
         order_by: str,
     ) -> list[CompanyModel]:
-        data_filter = db.query(CompanyModel)
 
-        for key in params:
-            data_filter = data_filter.filter(
-                getattr(CompanyModel, key) == params[key],
-            )
+        data_filter = db.query(CompanyModel)
+        body_filter = CompanyModelFilter(**filter).dict()
+
+        for key in body_filter:
+            if body_filter[key] is not None:
+                data_filter = data_filter.filter(
+                    getattr(CompanyModel, key) == filter[key],
+                )
+
         if order_by == "asc":
             data_filter = data_filter.order_by(
                 asc(getattr(CompanyModel, order_by_field))
