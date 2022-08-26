@@ -6,7 +6,11 @@ from sqlalchemy.orm import Session
 
 from app.common.database import get_db
 from app.crud.company_crud import company_model_crud
-from app.schemas.company_model import CompanyModelCreate, CompanyModelUpdate
+from app.schemas.company_model import (
+    CompanyModelCreate,
+    CompanyModelGet,
+    CompanyModelUpdate,
+)
 from app.schemas.response import resp
 
 company_model_router = APIRouter()
@@ -16,6 +20,11 @@ async def check_params(filter: str | None = None):
     if filter:
         return json.loads(filter)
     return {}
+
+
+@company_model_router.get("/test")
+async def get_list_model(filter: CompanyModelGet = Depends()):
+    return filter
 
 
 @company_model_router.get("/")

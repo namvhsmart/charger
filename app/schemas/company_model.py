@@ -1,8 +1,17 @@
-from pydantic import validator
+from pydantic import BaseModel, confloat, conint, constr, validator
 
 from app.common.util import validate_unique
 from app.models.company_model import CompanyModel
 from app.schemas.base import BaseModelSchemas
+
+
+class CompanyModelGet(BaseModel):
+    page_size: conint(ge=1) = None
+    current_page: conint(ge=1) = None
+    name: constr(min_length=2, max_length=255) = None
+    unit_cost: confloat(ge=0) = None
+    order_by: constr(min_length=2, max_length=255) = None
+    oder_by_field: constr(min_length=2, max_length=255) = None
 
 
 class CompanyModelBase(BaseModelSchemas):
