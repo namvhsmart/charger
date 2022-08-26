@@ -17,13 +17,6 @@ class CompanyModelCrud(
         CompanyModelUpdate,
     ]
 ):
-    async def list_by_name(
-        self,
-        db: Session,
-        name: str,
-    ) -> list[CompanyModel]:
-        return db.query(CompanyModel).filter(CompanyModel.name == name).all()
-
     async def get_list_by_filter(
         self,
         db: Session,

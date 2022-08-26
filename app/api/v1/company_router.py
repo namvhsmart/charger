@@ -1,5 +1,3 @@
-import json
-
 from fastapi import Depends
 from fastapi.routing import APIRouter
 from sqlalchemy.orm import Session
@@ -16,15 +14,10 @@ from app.schemas.response import resp
 company_model_router = APIRouter()
 
 
-async def check_params(filter: str | None = None):
-    if filter:
-        return json.loads(filter)
-    return {}
-
-
 @company_model_router.get("/")
 async def get_list_model(
-    params: CompanyModelGet = Depends(), db: Session = Depends(get_db)
+    params: CompanyModelGet = Depends(),
+    db: Session = Depends(get_db),
 ):
     param_dict = params.__dict__
 
