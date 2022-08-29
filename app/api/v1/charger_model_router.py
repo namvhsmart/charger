@@ -1,32 +1,32 @@
-from typing import List
-
-from fastapi import Depends
 from fastapi.routing import APIRouter
-from sqlalchemy.orm import Session
 
-from app.common.database import get_db
-from app.common.logger import logger
-from app.crud.charger_model_crud import charger_model_crud
-from app.schemas.charger_model import ChargerModelCreate, ChargerModelResponse
+from app.common.db_test import db_test
 from app.schemas.response import resp
 
 charger_model_router = APIRouter()
 
 
-@charger_model_router.get("s", response_model=List[ChargerModelResponse])
-async def list_charger_model(db: Session = Depends(get_db)):
-    """
-    This endpoint interacts with the list charger-model
-    """
-    logger.info("endpoint list charger-model")
-    results = await charger_model_crud.list(db)
-    return resp.success(data=results)
+@charger_model_router.get("/")
+async def get_all_charger(page_size: int, current_page: int):
+    response = []
+    if current_page >= page_size:
+        return resp.success(data=[])
+    offset = current_page * page_size
+    for i in range(offset - page_size, offset):
+        response.append(db_test[i])
+
+    return resp.success(data=response)
 
 
-@charger_model_router.post("/create")
-async def create_charger(
-    charger: ChargerModelCreate, db: Session = Depends(get_db)
-) -> str:
-    payload = {**charger.dict()}
-    await charger_model_crud.create(db=db, obj_in=payload)
-    return payload
+# @charger_model_router.post("/")
+# async def create_charger(body: dict):
+#     append_data(body)
+#     return db_test
+#
+#
+# @charger_model_router.get("/id")
+# async def get_charger_by_id(id: int):
+#     if db_test[id]:
+#         return resp.success(data=db_test[id])
+#
+#     return resp.success(data=[])
