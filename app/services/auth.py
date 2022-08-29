@@ -9,9 +9,10 @@ from sqlalchemy.orm import Session
 
 from app.common import handle_error
 from app.common.database import get_db
-from app.config import settings
-from app.config.settings import ALGORITHM, SECRET_KEY
+from app.core.config import get_settings
 from app.crud.user_crud import user_crud
+
+settings = get_settings()
 
 oauth2_scheme = OAuth2PasswordBearer(
     tokenUrl=f"{settings.API_PREFIX}/authentication/login"
@@ -45,8 +46,8 @@ def authenticate_user(user, password: str):
 
 
 def create_access_token(
-    data: dict,
-    expires_delta: Union[timedelta, None] = None,
+        data: dict,
+        expires_delta: Union[timedelta, None] = None,
 ):
     """
     this function is used for creating access token as jwt token
@@ -57,20 +58,20 @@ def create_access_token(
     else:
         expire = datetime.utcnow() + timedelta(minutes=15)
     to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    encoded_jwt = jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
     return encoded_jwt
 
 
 async def get_current_user(
-    security_scopes: SecurityScopes,
-    token: str = Depends(oauth2_scheme),
-    db: Session = Depends(get_db),
+        security_scopes: SecurityScopes,
+        token: str = Depends(oauth2_scheme),
+        db: Session = Depends(get_db),
 ):
     """
     This function is used for getting authenticated user.
     """
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
         username: str = payload.get("sub")
         if username is None:
             raise handle_error.UnAuthorizedException()

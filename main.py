@@ -1,7 +1,5 @@
 import argparse
 
-from app.common.logger import logger
-from app.config.settings import ENVIRONMENT
 from app.core.server import create_app
 
 app = create_app()
@@ -9,7 +7,6 @@ app = create_app()
 if __name__ == "__main__":
     import uvicorn
 
-    logger.info(f"ENVIRONMENT={ENVIRONMENT}")
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-env",

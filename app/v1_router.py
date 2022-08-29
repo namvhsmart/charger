@@ -7,9 +7,10 @@ from app.api.v1.current_user_router import current_user_router
 from app.api.v1.index import router_index
 from app.api.v1.user_router import user_router
 from app.api.v1.vehicle_model_router import vehicle_model
-from app.config import settings
+from app.core.config import get_settings
 
 api_v1_router = APIRouter()
+settings = get_settings()
 
 # router index
 api_v1_router.include_router(router_index, prefix=f"{settings.API_PREFIX}")

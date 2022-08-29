@@ -4,7 +4,7 @@ from starlette.middleware.cors import CORSMiddleware
 
 from app.common.database import DBBaseCustom, engine
 from app.common.handle_error import APIException
-from app.config.settings import setting
+from app.core.config import get_settings, Settings
 from app.v1_router import api_v1_router
 
 
@@ -13,15 +13,16 @@ def create_app() -> FastAPI:
     Create object FatAPI
     :return:
     """
-    env_yml = setting.get_config_env()
+    settings = get_settings()
+
     app = FastAPI(
-        title=env_yml.get("TITLE"),
-        description=env_yml.get("DESCRIPTION"),
-        version=env_yml.get("VERSION"),
+        title=settings.TITLE,
+        description=settings.DESCRIPTION,
+        version=settings.VERSION,
         docs_url=None,
     )
 
-    register_cors(app, env_yml)
+    register_cors(app, settings)
     register_router(app)
     register_exception(app)
 
@@ -41,7 +42,7 @@ def register_router(app: FastAPI) -> None:
     app.include_router(api_v1_router)
 
 
-def register_cors(app: FastAPI, env_yml) -> None:
+def register_cors(app: FastAPI, settings: Settings) -> None:
     """
     Register cors
     :param app:
@@ -49,7 +50,7 @@ def register_cors(app: FastAPI, env_yml) -> None:
     """
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=env_yml.get("ORIGINS"),
+        allow_origins=settings.ORIGINS,
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
