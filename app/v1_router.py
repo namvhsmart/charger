@@ -7,37 +7,40 @@ from app.api.v1.current_user_router import current_user_router
 from app.api.v1.index import router_index
 from app.api.v1.user_router import user_router
 from app.api.v1.vehicle_model_router import vehicle_model
-from app.core.config import get_settings
+from app.api.v1.charger_router import charger_router
 
 api_v1_router = APIRouter()
-settings = get_settings()
 
 # router index
-api_v1_router.include_router(router_index, prefix=f"{settings.API_PREFIX}")
+api_v1_router.include_router(router_index)
 
 # router charger model
 api_v1_router.include_router(
-    charger_model_router, prefix=f"{settings.API_PREFIX}/charger-model"
+    charger_model_router, prefix="/charger-model"
+)
+
+api_v1_router.include_router(
+    charger_router, prefix="/charger"
 )
 
 # router vehicle model
 api_v1_router.include_router(
-    vehicle_model, prefix=f"{settings.API_PREFIX}/vehicle-model"
+    vehicle_model, prefix="/vehicle-model"
 )
 api_v1_router.include_router(
     auth_router,
-    prefix=f"{settings.API_PREFIX}/authentication",
+    prefix="/authentication",
 )
 
 api_v1_router.include_router(
     current_user_router,
-    prefix=f"{settings.API_PREFIX}/current_user",
+    prefix="/current_user",
 )
 api_v1_router.include_router(
     user_router,
-    prefix=f"{settings.API_PREFIX}/user",
+    prefix="/user",
 )
 api_v1_router.include_router(
     company_model_router,
-    prefix=f"{settings.API_PREFIX}/company",
+    prefix="/company",
 )

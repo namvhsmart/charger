@@ -1,4 +1,4 @@
-db_test = [
+chargers = [
     {
         "id": 1,
         "name": "charger1",
@@ -182,5 +182,5 @@ db_test = [
 ]
 
 
-def append_data(data):
-    db_test.append(data)
+def get_chargers():
+    return chargers
