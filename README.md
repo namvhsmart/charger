@@ -5,10 +5,6 @@ git clone git@github.com:cuongtv-smartosc/template-fastapi.git
 cd template-fastapi
 ```
 
-## Overall Diagram
-![Overall Architecture](images/ev.png)
-
-
 # Requirements
 1. `>= Python 3.10`
 
@@ -30,17 +26,7 @@ pre-commit installed at .git/hooks/pre-commit
 ```
 docker-compose up -d
 ```
-## Run file import_data.py
-file import_data.py để create database and import data
-argument -dir: đường dẫn file import
-         -host: host connect database
-         -user: user file argument
-         -pass: pass file argument
-ex: /Users/tranvancuong/Download/all.sql
-```
-cd template-fastapi/
-python3.10 import_data.py -dir /Users/tranvancuong/Download/all.sql -host localhost -user root -pass 123456
-```
+
 ## Run dev server
 ```
 uvicorn main:app --reload
@@ -48,8 +34,6 @@ uvicorn main:app --reload
 
 online doc address
 ```
-http://127.0.0.1:8010/docs
-or
 http://127.0.0.1:8010/redoc
 ```
 
